@@ -47,4 +47,18 @@ public class FadingActionBarHelper extends FadingActionBarHelperBase {
     protected void setActionBarBackgroundDrawable(Drawable drawable) {
         mActionBar.setBackgroundDrawable(drawable);
     }
+
+    @Override
+    public void hideActionBar() {
+        if (mActionBar != null){
+            mActionBar.hide();
+        }
+    }
+
+    @Override
+    public void showActionBar() {
+        if (mActionBar != null){
+            mActionBar.show();
+        }
+    }
 }

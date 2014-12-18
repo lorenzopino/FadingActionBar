@@ -18,11 +18,13 @@ package com.manuelpeinado.fadingactionbar;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.MeasureSpec;
@@ -59,6 +61,7 @@ public abstract class FadingActionBarHelperBase {
     private boolean mFirstGlobalLayoutPerformed;
     private FrameLayout mMarginView;
     private View mListViewBackgroundView;
+    private double mFinalAlpha;
 
     public final <T extends FadingActionBarHelperBase> T actionBarBackground(int drawableResId) {
         mActionBarBackgroundResId = drawableResId;
@@ -313,11 +316,19 @@ public abstract class FadingActionBarHelperBase {
 
         int headerHeight = currentHeaderHeight - getActionBarHeight();
         float ratio = (float) Math.min(Math.max(scrollPosition, 0), headerHeight) / headerHeight;
-        int newAlpha = (int) (ratio * 255);
+        int newAlpha = (int) (ratio * (255*mFinalAlpha));
         mActionBarBackgroundDrawable.setAlpha(newAlpha);
 
+        /*Log.d("ActionBarCompat", "mLastScrollPosition: "+mLastScrollPosition +" currentScrollPosition: "+scrollPosition);
+        if (mLastScrollPosition > scrollPosition){
+            showActionBar();
+        }else if(mLastScrollPosition < scrollPosition){
+            hideActionBar();
+        }*/
+
         addParallaxEffect(scrollPosition);
-    }
+
+     }
 
     private void addParallaxEffect(int scrollPosition) {
         float damping = mUseParallax ? 0.5f : 1.0f;
@@ -356,4 +367,16 @@ public abstract class FadingActionBarHelperBase {
         }
         gradientView.setBackgroundResource(gradient);
     }
+
+    public double getFinalAlpha() {
+        return mFinalAlpha;
+    }
+
+    public void setFinalAlpha(double mFinalAlpha) {
+        this.mFinalAlpha = mFinalAlpha;
+    }
+
+    public abstract void hideActionBar();
+    public abstract void showActionBar();
+
 }

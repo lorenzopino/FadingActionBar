@@ -21,6 +21,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -37,10 +39,11 @@ public class ListViewActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 
         FadingActionBarHelper helper = new FadingActionBarHelper()
-            .actionBarBackground(R.drawable.ab_background)
+            .actionBarBackground( new ColorDrawable(Color.parseColor("#000000"))/*R.drawable.ab_background*/)
             .headerLayout(R.layout.header)
             .contentLayout(R.layout.activity_listview);
         setContentView(helper.createView(this));
+        helper.setFinalAlpha(0.65);
         helper.initActionBar(this);
 
         ListView listView = (ListView) findViewById(android.R.id.list);
